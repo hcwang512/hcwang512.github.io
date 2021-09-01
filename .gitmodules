@@ -1,0 +1,12 @@
+[submodule "themes/zzo"]
+	path = themes/zzo
+	url = https://github.com/zzossig/hugo-theme-zzo.git
+[submodule "themes/ananke"]
+	path = themes/ananke
+	url = https://github.com/budparr/gohugo-theme-ananke.git
+[submodule "themes/Zzo"]
+	path = themes/Zzo
+	url = https://github.com/zzossig/hugo-theme-zzo.git
+[submodule "themes/xmag"]
+	path = themes/xmag
+	url = https://github.com/yihui/hugo-xmag.git
