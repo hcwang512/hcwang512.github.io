@@ -5,7 +5,7 @@
 <title>whc512 Site</title>
 <meta name=viewport content="width=device-width,minimum-scale=1">
 <meta name=description content>
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.0">
 <meta name=ROBOTS content="NOINDEX, NOFOLLOW">
 <link rel=stylesheet href=/ananke/css/main.min.css>
 <link href=/index.xml rel=alternate type=application/rss+xml title="whc512 Site">
@@ -46,6 +46,27 @@ whc512 Site
 Recent Posts
 </h1>
 <section class="w-100 mw8">
+<div class="relative w-100 mb4">
+<article class="bb b--black-10">
+<div class="db pv4 ph3 ph0-l no-underline dark-gray">
+<div class="flex flex-column flex-row-ns">
+<div class="blah w-100">
+<h1 class="f3 fw1 athelas mt0 lh-title">
+<a href=/posts/service_mesh/ class="color-inherit dim link">
+Service_mesh
+</a>
+</h1>
+<div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+为什么需要 service_mesh 微服务的兴起和发展改变了工程师开发，构建，部署程序的方式。我们从单体应用的庞大代码库、扩展困难、迭代缓慢、单一技术栈的泥坑中被解救出来，旋即陷入了分布式系统的各种问题中。网络是不可靠的，网络的延迟是不稳定的，带宽是有限的，网络传输是有代价的，网络是不安全的，网络是异质的。诸多原因导致构建高可用，弹性的分布式系统是异常艰难的。经过多年的积累，我们总结出了一套通用技术指南。
+超时 重试 熔断 限速节流 动态服务发现 动态路由 分布式追踪以及运行时指标 安全通信和访问控制 这些功能在实现的时候应该作为公用库，与业务逻辑解耦。Twitter 的 rpc 框架 finagle, Facebook 的 http 框架 proxygen 就是很好的例子。而这依然有一些问题。需要专门的团队来维护这些通用库；对不同的框架，运行时，语言都需要实现这些功能；对业务开发依然有较高的心智成本；治理成本比较高，升级维护困难。解决这些问题的思路就在于将公用库设计为位于网络栈和应用业务逻辑的独立层，即透明网络代理，作为独立的运行单元，与业务不再直接，紧密关联。即 service mesh. mesh 的结构 上图清晰地描述了 service mesh 在微服务中的位置和功能。我们会以 linkerd 为例分析 mesh 的结构。
+总体来说，linkerd 主要由控制面和数据面构成。其中控制面为数据面上的行为提供控制数据；数据面则是由 rust 编写的轻量级代理，以 sidecar 的形式与应用容器一起部署，拦截处理所有的网络流量。 总结 service mesh 是微服务架构趋于成熟的标志。kubernetes 战胜 mesos, swarm 赢得了编排调度系统的竞争，kubernetes 的网络模型的竞争也基本结束。或许在不远的将来，service mesh 会成为 kubernetes 上的标配，并且有一个统一的实现。
+</div>
+<a href=/posts/service_mesh/ class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+</div>
+</div>
+</div>
+</article>
+</div>
 <div class="relative w-100 mb4">
 <article class="bb b--black-10">
 <div class="db pv4 ph3 ph0-l no-underline dark-gray">
