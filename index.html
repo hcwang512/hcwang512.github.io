@@ -52,6 +52,26 @@ Recent Posts
 <div class="flex flex-column flex-row-ns">
 <div class="blah w-100">
 <h1 class="f3 fw1 athelas mt0 lh-title">
+<a href=/posts/lru/ class="color-inherit dim link">
+Lru 的改进
+</a>
+</h1>
+<div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+lru 是常用的缓存置换算法，充分地利用了本地性，它假设最长时间没有被使用的数据将来被使用的可能性更低。 但是在实际的系统中，有不少场景并没有很强的本地性，比如数据库连续扫描大片的数据，或者循环读取比缓存容量大的数据。在这些场景下，缓存命中率会变得很低，而且会有大量的数据置换操作，导致性能变差。
+lru/k 和 2Q 解决这个问题的思路是将数据区分为热数据和冷数据，在短期内多次读取的数据才是热数据，会保存更长的时间，短期内只读取过一次的数据是冷数据，会被很快置换。热数据和冷数据的置换策略也有不同，热数据用 LRU，冷数据用 FIFO。这种思路很好地适用于连续扫描大片数据的场景。 mysql 使用了类似的思路。它将整个缓存分成占 5/8 的热数据区和 3/8 的冷数据区。当缓存满了之后，首先插入到 3/8 的位置，冷数据去的数据只有在 1s 内被再次使用才会被移入到热数据区。同时对热数据区的数据移动也做了优化，只有热数据区后3/4 的数据被访问到的时候才会移动，这样可以避免热数据频繁移动。
+</div>
+<a href=/posts/lru/ class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+</div>
+</div>
+</div>
+</article>
+</div>
+<div class="relative w-100 mb4">
+<article class="bb b--black-10">
+<div class="db pv4 ph3 ph0-l no-underline dark-gray">
+<div class="flex flex-column flex-row-ns">
+<div class="blah w-100">
+<h1 class="f3 fw1 athelas mt0 lh-title">
 <a href=/posts/bitcask/ class="color-inherit dim link">
 Bitcask intro
 </a>
@@ -91,30 +111,14 @@ hashicorp go-plugin 因此 hashicorp 开发了 go-plugin 项目，plugin 是一�
 </div>
 </article>
 </div>
-<div class="relative w-100 mb4">
-<article class="bb b--black-10">
-<div class="db pv4 ph3 ph0-l no-underline dark-gray">
-<div class="flex flex-column flex-row-ns">
-<div class="blah w-100">
-<h1 class="f3 fw1 athelas mt0 lh-title">
-<a href=/posts/service_mesh/ class="color-inherit dim link">
-Service mesh introduction
-</a>
-</h1>
-<div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-为什么需要 service_mesh 微服务的兴起和发展改变了工程师开发，构建，部署程序的方式。我们从单体应用的庞大代码库、扩展困难、迭代缓慢、单一技术栈的泥坑中被解救出来，旋即陷入了分布式系统的各种问题中。网络是不可靠的，网络的延迟是不稳定的，带宽是有限的，网络传输是有代价的，网络是不安全的，网络是异质的。诸多原因导致构建高可用，弹性的分布式系统是异常艰难的。经过多年的积累，我们总结出了一套通用技术指南。
-超时 重试 熔断 限速节流 动态服务发现 动态路由 分布式追踪以及运行时指标 安全通信和访问控制 这些功能在实现的时候应该作为公用库，与业务逻辑解耦。Twitter 的 rpc 框架 finagle, Facebook 的 http 框架 proxygen 就是很好的例子。而这依然有一些问题。需要专门的团队来维护这些通用库；对不同的框架，运行时，语言都需要实现这些功能；对业务开发依然有较高的心智成本；治理成本比较高，升级维护困难。解决这些问题的思路就在于将公用库设计为位于网络栈和应用业务逻辑的独立层，即透明网络代理，作为独立的运行单元，与业务不再直接，紧密关联。即 service mesh. mesh 的结构 上图清晰地描述了 service mesh 在微服务中的位置和功能。我们会以 linkerd 为例分析 mesh 的结构。
-总体来说，linkerd 主要由控制面和数据面构成。其中控制面为数据面上的行为提供控制数据；数据面则是由 rust 编写的轻量级代理，以 sidecar 的形式与应用容器一起部署，拦截处理所有的网络流量。 总结 service mesh 是微服务架构趋于成熟的标志。kubernetes 战胜 mesos, swarm 赢得了编排调度系统的竞争，kubernetes 的网络模型的竞争也基本结束。或许在不远的将来，service mesh 会成为 kubernetes 上的标配，并且有一个统一的实现。
-</div>
-<a href=/posts/service_mesh/ class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-</div>
-</div>
-</div>
-</article>
-</div>
 </section>
 <section class=w-100>
 <h1 class=f3>More</h1>
+<h2 class="f5 fw4 mb4 dib mr3">
+<a href=/posts/service_mesh/ class="link black dim">
+Service mesh introduction
+</a>
+</h2>
 <h2 class="f5 fw4 mb4 dib mr3">
 <a href=/posts/qinzhi/ class="link black dim">
 秦制两千年
