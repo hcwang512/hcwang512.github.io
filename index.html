@@ -52,6 +52,28 @@ Recent Posts
 <div class="flex flex-column flex-row-ns">
 <div class="blah w-100">
 <h1 class="f3 fw1 athelas mt0 lh-title">
+<a href=/posts/global_rate_limit/ class="color-inherit dim link">
+Global rate limit
+</a>
+</h1>
+<div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+rate limit 对于线上服务的稳定性相当重要。单机版的 rate limit 有很多的算法，不具体展开。微服务一般需要分布式的 rate limit. 设计全局 rate limit 有3个思路。
+平均分摊到单机 将 limit 平均分配到单机，默认每一个实例会承担相同的流量。这种方法需要事先确定实例数量，并且可能会有较大的误差。
+sticky session 通过 load balance 策略，比如一致性哈希，总是将相同场景的请求转发到同一个(或一批)实例上。这种方法巧妙地将全局问题转化为单机问题。优点是实现简单，缺点也很致命，它的容错和伸缩性都比较差。一般不会用于关键的场景。
+中心存储 通过 redis/cassadra 将计数信息中心化存储。这种方式可能会在请求量大的时候会有性能问题。
+</div>
+<a href=/posts/global_rate_limit/ class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+</div>
+</div>
+</div>
+</article>
+</div>
+<div class="relative w-100 mb4">
+<article class="bb b--black-10">
+<div class="db pv4 ph3 ph0-l no-underline dark-gray">
+<div class="flex flex-column flex-row-ns">
+<div class="blah w-100">
+<h1 class="f3 fw1 athelas mt0 lh-title">
 <a href=/posts/lru/ class="color-inherit dim link">
 Lru 的改进
 </a>
@@ -87,33 +109,14 @@ Bitcask 完美地实现了上面的这些要求。但是 Bitcask 会占用大量
 </div>
 </article>
 </div>
-<div class="relative w-100 mb4">
-<article class="bb b--black-10">
-<div class="db pv4 ph3 ph0-l no-underline dark-gray">
-<div class="flex flex-column flex-row-ns">
-<div class="blah w-100">
-<h1 class="f3 fw1 athelas mt0 lh-title">
-<a href=/posts/go_plugin/ class="color-inherit dim link">
-Go plugin
-</a>
-</h1>
-<div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-golang 是静态编译型语言，在编译时就需要将所有引用的包加载到最终的可执行程序中。go plugin 提供了在运行时动态加载外部功能的能力。go plugin 带来的好处是可以动态加载，可插拔，可独立开发。其典型的使用场景是
-业务逻辑由多个代码模块组成，这些模块由不同的团队维护。可以独立开发，发布. 业务的总体流程是相对固定的，针对不同的业务执行不同的插件。 使用的时候先将 plugin 编译为 so 动态库，在主函数中打开 so 文件，即可查找到 plugin 中的可导出变量和方法。
-go plugin 的一个非常严重的缺点在于需要保证 plugin 和主工程的 go 版本，平台，编译参数都一致，否则会有 panic 报错。这个缺陷极大地限制了 go plugin 的使用。
-hashicorp go-plugin 因此 hashicorp 开发了 go-plugin 项目，plugin 是一个独立进程，与主进程通过本地网络 grpc 调用来双向交换数据。因为是进程间通信，而且传输数据是通过 pb 编码的。因此比 go plugin 有很多的好处。
-不依赖 go 版本，平台，编译参数。 因为运行 plugin 在一个独立的进程中，因此 plugin panic 不会影响到主进程 支持双向通信 支持更多的语言 协议支持版本号。可以确保主进程总是适配 plugin 版本 支持多语言实现 plugin 可以做到平滑热更新 go-plugin 因为涉及到网络通信，数据编解码，因此在性能上带来一定的损耗。一些优化思路包括
-网络协议优化，支持多路复用 合并小请求 支持内置 rpc server，减少 cgo 的调用。grpc 为远程调用做了很多二外的封装和处理逻辑。这些对本地网络通信是不需要的。 异步发送和接收 优化数据编码协议，降低协议解析开销。比如使用 gogoPB 零拷贝及重复利用 buffer 等 做了这些优化之后，基本可以做到和 native 代码相当的性能，包括吞吐量和时延。
-</div>
-<a href=/posts/go_plugin/ class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-</div>
-</div>
-</div>
-</article>
-</div>
 </section>
 <section class=w-100>
 <h1 class=f3>More</h1>
+<h2 class="f5 fw4 mb4 dib mr3">
+<a href=/posts/go_plugin/ class="link black dim">
+Go plugin
+</a>
+</h2>
 <h2 class="f5 fw4 mb4 dib mr3">
 <a href=/posts/service_mesh/ class="link black dim">
 Service mesh introduction
