@@ -52,6 +52,30 @@ Recent Posts
 <div class="flex flex-column flex-row-ns">
 <div class="blah w-100">
 <h1 class="f3 fw1 athelas mt0 lh-title">
+<a href=/posts/emacs_remote/ class="color-inherit dim link">
+Emacs Remote
+</a>
+</h1>
+<div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+最近一段时间，因为种种原因，无法在本地开发公司的项目。我们每一个人分配了开发机，在开发机上配置好开发环境。因为一直是用的 emacs， 所以在终端上使用 emacs 感觉也还行。之前一直是用 GUI emacs，在使用 terminal emacs 的过程中，发现有一些问题是无法解决的。比如无法查看图片，treemacs 无法显示 icon, 主题颜色无法很好地展示。有一些问题属于可以解决但是似乎并不值得去做的，比如 ssh 连接断开之后还等重新打开文件，这可以通过用 tmux 等方式来解决。
+vscode 的 remote-ssh 可以很方便地在本地编辑远程文件，可以算的上是杀手级功能了。查了一下怎么在本地编辑远程文件，有以下几种方式。
+文件同步 把本地文件自动同步到远程目录，可以使用 sshfs、unionfs 等方式。本质上还是编辑本地文件。 这种方式在大多数情况下是没问题的，但是有些比较底层的项目对系统和共享库有较深的依赖，可能无法在本地正确地编译、补全。
+tramp emacs 使用 tramp 可以做到无感地在本地编辑远程的文件。但是发现跟 lsp-mode, flycheck 集成有问题。tramp 历史很古老，但是没有 lsp-mode, flycheck， 基本没法用了。
+emacs server 另一种思路是在远程机器上开启 emacs server, 在本地用 emacsclient 连接上 emacs server. 可以用 ssh 解决 port forwading 的问题。但是遗憾地是，用 emacsclient 打开文件，结果还是在远程机器上创建了 frame。理论上，emacs server 只能在启动的机器上创建 frame。
+最终还是得用终端的方式来使用 emacs. 眼看着 vscode 在易用性和功能上都超越了 emacs，或许终结编辑器圣战的将会是 vscode 吧。
+</div>
+<a href=/posts/emacs_remote/ class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+</div>
+</div>
+</div>
+</article>
+</div>
+<div class="relative w-100 mb4">
+<article class="bb b--black-10">
+<div class="db pv4 ph3 ph0-l no-underline dark-gray">
+<div class="flex flex-column flex-row-ns">
+<div class="blah w-100">
+<h1 class="f3 fw1 athelas mt0 lh-title">
 <a href=/posts/global_rate_limit/ class="color-inherit dim link">
 Global rate limit
 </a>
@@ -88,30 +112,14 @@ lru/k 和 2Q 解决这个问题的思路是将数据区分为热数据和冷数�
 </div>
 </article>
 </div>
-<div class="relative w-100 mb4">
-<article class="bb b--black-10">
-<div class="db pv4 ph3 ph0-l no-underline dark-gray">
-<div class="flex flex-column flex-row-ns">
-<div class="blah w-100">
-<h1 class="f3 fw1 athelas mt0 lh-title">
-<a href=/posts/bitcask/ class="color-inherit dim link">
-Bitcask intro
-</a>
-</h1>
-<div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-Bitcask 是一个高效的基于哈希表结构的 kv 数据库。它要实现的目标包括
-高性能的随机读写单个数据 支持高吞吐地写入数据 能够处理比内存大的数据，并且性能不随着数据量增长而变差 好的容灾处理，包括快速恢复和防止丢数据 备份和恢复容易 代码和数据结构简单 高负载下的性能依旧足够好 Bitcask 的设计非常简单，数据通过追加的方式写到文件中，同时在内存中保存 key 对应的位置。这样对于 PUT 操作就只需要追加写入到文件中，性能会很好；对于 GET 操作需要从内存中找到 offset，再从文件指定位置读取，需要一次磁盘寻址的时间，而且可以通过使用文件系统的 read ahead cache 来加速读取。 因为 PUT, DEL, UPDATE 都是追加写，随着时间的推移，数据量不断膨胀，肯定需要 merge 操作把老数据清除掉。merge 的时候只对已经不更新的文件进行操作，生成新的只包含最新数据的文件。为了加快启动的速度，每一个数据文件都会有一个 hint 文件，里面包含了 key 和对应的元信息，这样 hint 文件会很小。
-Bitcask 完美地实现了上面的这些要求。但是 Bitcask 会占用大量的内存，尤其是对于存储小数据的场景来说，内存/磁盘比会比较大。当然这个问题也可以很简单地通过水平分片来解决。
-</div>
-<a href=/posts/bitcask/ class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-</div>
-</div>
-</div>
-</article>
-</div>
 </section>
 <section class=w-100>
 <h1 class=f3>More</h1>
+<h2 class="f5 fw4 mb4 dib mr3">
+<a href=/posts/bitcask/ class="link black dim">
+Bitcask intro
+</a>
+</h2>
 <h2 class="f5 fw4 mb4 dib mr3">
 <a href=/posts/go_plugin/ class="link black dim">
 Go plugin
